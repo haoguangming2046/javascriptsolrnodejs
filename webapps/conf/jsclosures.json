@@ -1,0 +1,24 @@
+{
+	"baseUrl": "/jsclosures",
+  "loginUrl": "/authservice?contenttype=LOGIN",
+  "logoutUrl": "/authservice?contenttype=LOGOUT",
+	"authUrl": "/authservice?contenttype=AUTH",
+  "restUrl": "/restservice",
+	"_authUrl": "mockdata/loginresponse.json",
+  "background-color": "red",
+	"imagesPrefix": "/img/",  
+  "version": "1.0",
+	"appName": "JSClosures",
+	"viewChildren" : [{"id": "login","name": "login","authenticate": false,"buildWith": "buildLoginPage","includes": ["js/app.js"]},
+										{"id": "main","name": "main","authenticate": true,"buildWith": "buildMainPage","includes": ["js/app.js"]},
+                    {"id": "map","name": "map","authenticate": true,"buildWith": "buildMapPage","includes": ["js/app.js"]}
+	],
+  "mime": "json",    
+  "debug": false,
+  "mapCenterLatitude": 40.7142,
+  "mapCenterLongitude": -74.0064,
+  "mapZoomLevel": {"maximum": 20,"minimum": 1,"default": 10},
+  "mapType": [{"label": "roadmap","value": "roadmap"},{"label": "satellite","value": "satellite"},{"label": "terrain","value": "terrain"}],
+  "mapGeoLocation": {"startDelay": 1000,"successDelay": 1000,"failureDelay": 1000,"maximumAge":6000000,"timeout": 1000},
+  "language": [{"id": "en","label": "English","direction": "ltr","value":"en/translations.json"}]
+}
