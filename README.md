@@ -6,10 +6,15 @@ Solr REST demo using pure javascript, a little bit of dojo (AMD and others), and
 
 A complete REST application using 
 
+NodeJs
+
 https://nodejs.org/dist/v0.12.6/x64/node-v0.12.6-x64.msi
 https://nodejs.org/dist/v0.12.6/node-v0.12.6.pkg
 https://nodejs.org/dist/v0.12.6/node-v0.12.6-linux-x64.tar.gz
 
+Latest Solr
+
+http://www.apache.org/dyn/closer.cgi/lucene/solr/5.2.1
 
 install nodejs as follows:
 
