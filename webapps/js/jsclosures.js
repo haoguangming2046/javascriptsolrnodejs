@@ -796,7 +796,10 @@ CURRENTCONTEXT.findWidgetById = function(widgetId){
 }
 
 CURRENTCONTEXT.applyStyleToWidget = function(widget,newStyle){
-	dojo.style(widget, newStyle);
+	for(var p in newStyle){
+		widget.style[p] = newStyle[p];
+	}
+	//dojo.style(widget, newStyle);
 }
 
 
@@ -826,7 +829,7 @@ CURRENTCONTEXT.buildWidget = function(viewLifecycle,container,args){
 	var result = false;
 
 	if( type === "input" ) {
-		var itemLabel = dojo.create("label");
+		var itemLabel = document.createElement("label");
 	     itemLabel.id = itemName + "label"
 	     itemLabel.className = args.labelClassName ? args.labelClassName : "label";
 	     itemLabel.for = itemName;
@@ -845,12 +848,12 @@ CURRENTCONTEXT.buildWidget = function(viewLifecycle,container,args){
 	     result = newInput;
 	}
 	else if( type === "button" ) {
-		var newButton = dojo.create(args.itemType ? args.itemType : "div");
+		var newButton = document.createElement(args.itemType ? args.itemType : "div");
 	     newButton.id = itemName;
 	     if( args.className ){
 	     	newButton.className = args.className;
 	     }
-	     
+
 	     if( args.itemLabel ){
 	     	newButton.innerHTML = args.itemLabel;
 	     }
@@ -863,7 +866,7 @@ CURRENTCONTEXT.buildWidget = function(viewLifecycle,container,args){
 	     result = newButton;
 	}
 	else if( type === "container" ) {
-		var newContainer = dojo.create(args.itemType ? args.itemType : "div");
+		var newContainer = document.createElement(args.itemType ? args.itemType : "div");
 	     newContainer.id = itemName;
 	     if( args.className ){
 	     	newContainer.className = args.className;

@@ -14,6 +14,10 @@ pre {
 html, #mainapp {
     height: 100%;
     width: 100%;
+    border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+-webkit-border-radius: 10px 10px 10px 10px;
+border: 0px solid #c0c0c0;
 }
 body 
 {
