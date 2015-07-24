@@ -11,78 +11,17 @@ function internalBuildLoginPage(viewLifecycle){
 		function buildView(){
 			var cContext = getCurrentContext();
 	    
-	     var mainContainer = dojo.byId(cContext.mainId);
-	     
-	     var newDiv = dojo.create("div");
-	     newDiv.id = viewLifecycle.id;
-	     newDiv.className = "view";
-	
-	     mainContainer.appendChild(newDiv);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: newDiv.id});
+	     var mainContainer = cContext.findWidgetById(cContext.mainId);
 
-	     var newForm = dojo.create("div");
-	     newForm.id = viewLifecycle.id + "form";
-	     newForm.className = "form";
-	
-	     newDiv.appendChild(newForm);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: newForm.id});
+	     var newDiv = cContext.buildWidget(viewLifecycle,mainContainer,{type: "container",className: "view",id: viewLifecycle.id});
+	   
+	     var newForm = cContext.buildWidget(viewLifecycle,newDiv,{type: "container",className: "form",id: viewLifecycle.id + "form"});
 
-	     var inputLabel = dojo.create("label");
-	     inputLabel.id = viewLifecycle.id + "name" + "label"
-	     inputLabel.className = "label";
-	     inputLabel.for = viewLifecycle.id + "name";
-	     inputLabel.innerHTML = cContext.getString("USERNAME");
-	     
-	     newForm.appendChild(inputLabel);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: inputLabel.id});
+	     var newInput = cContext.buildWidget(viewLifecycle,newForm,{type: "input",className: "input",labelClassName: "label",id: viewLifecycle.id + "name",itemType: "input",itemLabel: cContext.getString("USERNAME")});
 
-	     var newInput = dojo.create("input");
-	     newInput.id = viewLifecycle.id + "name";
-	     newInput.className = "input";
-	     newInput.type = "text";
-	     
-	     newForm.appendChild(newInput);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: newInput.id});
+	     var newInput = cContext.buildWidget(viewLifecycle,newForm,{type: "input",className: "input",labelClassName: "label",id: viewLifecycle.id + "pwd",itemType: "password",itemLabel: cContext.getString("PASSWORD")});
 
-	     var inputLabel = dojo.create("label");
-	     inputLabel.id = viewLifecycle.id + "pwd" + "label";
-	     inputLabel.className = "label";
-	     inputLabel.for = viewLifecycle.id + "pwd";
-	     inputLabel.innerHTML = cContext.getString("PASSWORD");
-	     
-	     newForm.appendChild(inputLabel);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: inputLabel.id});
-
-	     var newInput = dojo.create("input");
-	     newInput.id = viewLifecycle.id + "pwd";
-	     newInput.className = "input";
-	     newInput.type = "password";
-	     
-	     newForm.appendChild(newInput);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: newInput.id});
-	     
-	     var controlPanel = dojo.create("div");
-	     controlPanel.id = viewLifecycle.id + "controlpanel";
-	     controlPanel.className = "logincontrolpanel";
-	     
-	     newForm.appendChild(controlPanel);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: controlPanel.id});
-	     
-	     var newButton = dojo.create("div");
-	     newButton.id = viewLifecycle.id + "button";
-	     newButton.className = "button";
-	     newButton.innerHTML = cContext.getString("LOGIN");
-	     
-	     controlPanel.appendChild(newButton);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: newButton.id});
+	     var controlPanel = cContext.buildWidget(viewLifecycle,newForm,{type: "container",className: "logincontrolpanel",id: viewLifecycle.id + "controlpanel"});
 	     
 	     var clickAction = function(evt){
 	     	var doLater = function(response){
@@ -101,12 +40,9 @@ function internalBuildLoginPage(viewLifecycle){
 		
 			service.get();
 	     }
-	     
-	     var tConnect = getCurrentContext().registerEventHandler(newButton,"click",clickAction);
-	     
-	     viewLifecycle.addConnector(tConnect);
-	     
-	     
+
+	     var newButton = cContext.buildWidget(viewLifecycle,controlPanel,{type: "button",className: "button",id: viewLifecycle.id + "button",itemLabel: cContext.getString("LOGIN"),onClick: clickAction});
+
 	     viewLifecycle.start();
 	  }
 	  
@@ -127,30 +63,14 @@ function internalBuildMainPage(viewLifecycle){
 		function buildView(){
 			var cContext = getCurrentContext();
 	    
-	     var mainContainer = dojo.byId(cContext.mainId);
+	     var mainContainer = cContext.findWidgetById(cContext.mainId);
 	     
-	     var newDiv = dojo.create("div");
-	     newDiv.id = viewLifecycle.id;
-	     newDiv.className = "view";
-	
-	     mainContainer.appendChild(newDiv);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: newDiv.id});
+	     var newDiv = cContext.buildWidget(viewLifecycle,mainContainer,{type: "container",className: "view",id: viewLifecycle.id});
+	   
+	     var newForm = cContext.buildWidget(viewLifecycle,newDiv,{type: "container",className: "form",id: viewLifecycle.id + "form"});
 
-	     var newForm = dojo.create("div");
-	     newForm.id = viewLifecycle.id + "form";
-	     newForm.className = "form";
-	
-	     newDiv.appendChild(newForm);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: newForm.id});
+		var gridPanel = cContext.buildWidget(viewLifecycle,newForm,{type: "container",className: "gridpanel",id: viewLifecycle.id + "panel"});
 
-	     var gridPanel = dojo.create("div");
-		gridPanel.id = viewLifecycle.id + "panel";
-		gridPanel.className = "gridpanel";
-	
-		newForm.appendChild(gridPanel);
-		viewLifecycle.addChild({type: "DOM",id: gridPanel.id});
 
 	     var tabFilterName = viewLifecycle.id + "filter";
 
@@ -172,13 +92,9 @@ function internalBuildMainPage(viewLifecycle){
 
 		var tabFilter = protoAtoZPicker(filterConfig);
 
-		var newFilter = dojo.create("div");
-		newFilter.id = viewLifecycle.id + "filter";
-		newFilter.innerHTML = tabFilter;
-		newFilter.className = "filtercontainer";
-	
-		gridPanel.appendChild(newFilter);
-		viewLifecycle.addChild({type: "DOM",id: newFilter.id});
+
+		var newFilter = cContext.buildWidget(viewLifecycle,gridPanel,{type: "container",className: "filtercontainer",id: viewLifecycle.id + "filter",innerHTML: tabFilter});
+	   
 
 		newFilter.tabClick = function(code) {
 			console.log("code: " + code);
@@ -193,44 +109,13 @@ function internalBuildMainPage(viewLifecycle){
 		var gridName = viewLifecycle.id + "grid";
 		var gridState = {start: 0,rows: 10,code: filterList[0].code,children: 0};
 
-		var newGridContainer = dojo.create("div");
-		newGridContainer.id = gridName + "container";
-		newGridContainer.className = "gridlistcontainer";
-	
-		gridPanel.appendChild(newGridContainer);
-		viewLifecycle.addChild({type: "DOM",id: newGridContainer.id});
+		var newGridContainer = cContext.buildWidget(viewLifecycle,gridPanel,{type: "container",className: "gridlistcontainer",id: viewLifecycle.id + "container"});
+	   
+		var newGridWrapper = cContext.buildWidget(viewLifecycle,newGridContainer,{type: "container",className: "gridlist",id: viewLifecycle.id + "wrapper"});
 
-		var newGridWrapper = dojo.create("div");
-		newGridWrapper.id = gridName + "wrapper";
-		newGridWrapper.className = "gridlist";
-	
-		newGridContainer.appendChild(newGridWrapper);
-		viewLifecycle.addChild({type: "DOM",id: newGridWrapper.id});
+		var newGrid = cContext.buildWidget(viewLifecycle,newGridWrapper,{type: "container",className: "gridlist",id: gridName,itemType: "ul"});
 
-		var newGrid = dojo.create("ul");
-		newGrid.id = gridName;
-		newGrid.className = "gridlist";
-	
-	
-		newGridWrapper.appendChild(newGrid);
-		viewLifecycle.addChild({type: "DOM",id: newGrid.id});
-
-		var controlPanel = dojo.create("div");
-	     controlPanel.id = gridName+ "controlpanel";
-	     controlPanel.className = "gridcontrolpanel";
-	     
-	     gridPanel.appendChild(controlPanel);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: controlPanel.id});
-
-		var previousButton = dojo.create("div");
-	     previousButton.id = viewLifecycle.id + "previousbutton";
-	     previousButton.className = "previousbutton";
-	     previousButton.innerHTML = cContext.getString("PREVIOUS");
-	     
-	     controlPanel.appendChild(previousButton);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: previousButton.id});
+	     var controlPanel = cContext.buildWidget(viewLifecycle,gridPanel,{type: "container",className: "gridcontrolpanel",id: gridName + "controlpanel"});
 	     
 	     var previousClickAction = function(evt){
 	     		console.log("previous");
@@ -240,19 +125,7 @@ function internalBuildMainPage(viewLifecycle){
 	     		}
 	     }
 	     
-	     var tConnect = getCurrentContext().registerEventHandler(previousButton,"click",previousClickAction);
-	     
-	     viewLifecycle.addConnector(tConnect);
-
-
-	     var nextButton = dojo.create("div");
-	     nextButton.id = viewLifecycle.id + "nextbutton";
-	     nextButton.className = "nextbutton";
-	     nextButton.innerHTML = cContext.getString("NEXT");
-	     
-	     controlPanel.appendChild(nextButton);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: nextButton.id});
+	     var previousButton = cContext.buildWidget(viewLifecycle,controlPanel,{type: "button",className: "previousbutton",id: viewLifecycle.id + "previousbutton",itemLabel: cContext.getString("PREVIOUS"),onClick: previousClickAction});
 	     
 	     var nextClickAction = function(evt){
 	     		console.log("next");
@@ -260,26 +133,10 @@ function internalBuildMainPage(viewLifecycle){
 	     		loadGridData(gridState.code);
 	     }
 	     
-	     var tConnect = getCurrentContext().registerEventHandler(nextButton,"click",nextClickAction);
-	     
-	     viewLifecycle.addConnector(tConnect);
 
-	     var mainControlPanel = dojo.create("div");
-	     mainControlPanel.id = viewLifecycle.id + "controlpanel";
-	     mainControlPanel.className = "maincontrolpanel";
-	     
-	     gridPanel.appendChild(mainControlPanel);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: mainControlPanel.id});
-	     
-	     var newButton = dojo.create("div");
-	     newButton.id = viewLifecycle.id + "button";
-	     newButton.className = "button";
-	     newButton.innerHTML = cContext.getString("LOGOUT");
-	     
-	     mainControlPanel.appendChild(newButton);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: newButton.id});
+	     var nextButton = cContext.buildWidget(viewLifecycle,controlPanel,{type: "button",className: "nextbutton",id: viewLifecycle.id + "nextbutton",itemLabel: cContext.getString("NEXT"),onClick: nextClickAction});
+
+	     var mainControlPanel = cContext.buildWidget(viewLifecycle,gridPanel,{type: "container",className: "maincontrolpanel",id: viewLifecycle.id + "controlpanel"});
 	     
 	     var clickAction = function(evt){
 	     		getCurrentContext().setCurrentView("login");
@@ -296,9 +153,8 @@ function internalBuildMainPage(viewLifecycle){
 				service.get();
 	     }
 	     
-	     var tConnect = getCurrentContext().registerEventHandler(newButton,"click",clickAction);
-	     
-	     viewLifecycle.addConnector(tConnect);
+	     var newButton = cContext.buildWidget(viewLifecycle,mainControlPanel,{type: "button",className: "button",id: viewLifecycle.id + "button",itemLabel: cContext.getString("LOGOUT"),onClick: clickAction});
+
 	     function handleItemClick(evt){
 	     	console.log("item: " + this.actualRecord);
 	     	if( this.actualRecord ){
@@ -329,20 +185,11 @@ function internalBuildMainPage(viewLifecycle){
 	     					var newListItem = cContext.findWidgetById(gridName + i + "click");
 
      						if( newListItem == null ){
-     							newListItem = dojo.create("li");
-								newListItem.id = gridName + i;
-								//newListItem.className = "gridlist";
-	
-								grid.appendChild(newListItem);
-								viewLifecycle.addChild({type: "DOM",id: newListItem.id});
+     						
 
-								var newListItemClick = dojo.create("a");
-								newListItemClick.id = gridName + i + "click";
-								newListItemClick.className = "gridlist";
-								newListItemClick.onclick = handleItemClick;
-	
-								newListItem.appendChild(newListItemClick);
-								viewLifecycle.addChild({type: "DOM",id: newListItemClick.id});
+								newListItem = cContext.buildWidget(viewLifecycle,grid,{type: "container",itemType: "li",className: "",id: gridName + i});
+
+								var newListItemClick = cContext.buildWidget(viewLifecycle,newListItem,{type: "button",itemType: "a",className: "",id: gridName + i + "click",onClick: handleItemClick});
 
 								gridState.children++;
 								newListItem = newListItemClick;
@@ -400,11 +247,12 @@ function protoAtoZPicker(config) {
 }
 
 function hiliteAtoZTab(tabFilterName,code) {
-    var filterConfig = getCurrentContext().findWidgetById(tabFilterName).tabConfig;
+    var cContext = getCurrentContext();
+    var filterConfig = cContext.findWidgetById(tabFilterName).tabConfig;
     var filterList = filterConfig.filterList;
 
     for (var i = 0;i < filterList.length;i++) {
-        var tItem = dojo.byId(filterList[i].id);
+        var tItem = cContext.findWidgetById(filterList[i].id);
         var newStyle = {
         };
         if (code == filterList[i].code) {
@@ -416,7 +264,7 @@ function hiliteAtoZTab(tabFilterName,code) {
             newStyle.color = "";
         }
 
-        dojo.style(tItem, newStyle);
+        cContext.applyStyleToWidget(tItem, newStyle);
     }
 }
 
@@ -434,23 +282,11 @@ function internalBuildMapPage(viewLifecycle){
 		function buildView(){
 			var cContext = getCurrentContext();
 	    
-	     var mainContainer = dojo.byId(cContext.mainId);
+	     var mainContainer = cContext.findWidgetById(cContext.mainId);
 	     
-	     var newDiv = dojo.create("div");
-	     newDiv.id = viewLifecycle.id;
-	     newDiv.className = "view";
-	
-	     mainContainer.appendChild(newDiv);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: newDiv.id});
-
-	     var newForm = dojo.create("div");
-	     newForm.id = viewLifecycle.id + "form";
-	     newForm.className = "form";
-	
-	     newDiv.appendChild(newForm);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: newForm.id});
+	     var newDiv = cContext.buildWidget(viewLifecycle,mainContainer,{type: "container",className: "view",id: viewLifecycle.id});
+	   
+	     var newForm = cContext.buildWidget(viewLifecycle,newDiv,{type: "container",className: "form",id: viewLifecycle.id + "form"});
 
 	     var parentDimension = cContext.getElementDimensions(newForm);
 	     console.log(parentDimension);
@@ -458,34 +294,11 @@ function internalBuildMapPage(viewLifecycle){
 	     var mapName = viewLifecycle.id + "map";
 	     var mapPadX = 0;
 	     var mapPadY = 0;
-	     var mapContainer = dojo.create("div");
-	     mapContainer.id = mapName;
-	     mapContainer.className = "mapView";
-	     mapContainer.style.padding = "0px";
-	     mapContainer.style.width = "100%";
-	     mapContainer.style.height = "100%";
-	
-	     newForm.appendChild(mapContainer);
+
+	     var mapContainer = cContext.buildWidget(viewLifecycle,newForm,{type: "container",className: "mapview",id: mapName});
+	   
 	     
-	     viewLifecycle.addChild({type: "DOM",id: mapContainer.id});
-	     
-	     
-	     var controlPanel = dojo.create("div");
-	     controlPanel.id = viewLifecycle.id + "controlpanel";
-	     controlPanel.className = "maincontrolpanel";
-	     
-	     newForm.appendChild(controlPanel);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: controlPanel.id});
-	     
-	     var newButton = dojo.create("div");
-	     newButton.id = viewLifecycle.id + "button";
-	     newButton.className = "button";
-	     newButton.innerHTML = cContext.getString("BACK");
-	     
-	     controlPanel.appendChild(newButton);
-	     
-	     viewLifecycle.addChild({type: "DOM",id: newButton.id});
+	     var controlPanel = cContext.buildWidget(viewLifecycle,newForm,{type: "container",className: "maincontrolpanel",id: viewLifecycle.id + "controlpanel"});
 	     
 	     var clickAction = function(evt){
 	     	var doLater = function(response){
@@ -495,10 +308,8 @@ function internalBuildMapPage(viewLifecycle){
 	     	}
 	     	doLater();
 	     }
-	     
-	     var tConnect = getCurrentContext().registerEventHandler(newButton,"click",clickAction);
-	     
-	     viewLifecycle.addConnector(tConnect);
+	    
+	     var newButton = cContext.buildWidget(viewLifecycle,controlPanel,{type: "button",className: "button",id: viewLifecycle.id + "button",itemLabel: cContext.getString("BACK"),onClick: clickAction});
 
 	     viewLifecycle.postInit = function(lifecycle,viewInfo){
 	     	console.log("item in post init: " + viewInfo);
@@ -564,7 +375,7 @@ function internalBuildMapPage(viewLifecycle){
                     
           var cPoint =   new google.maps.LatLng(pos.latitude,pos.longitude);
           
-          map = new google.maps.Map(dojo.byId(mapName),{
+          map = new google.maps.Map(cContext.findWidgetById(mapName),{
               zoom: cContext.getSetting("mapZoomLevel").default,
               mapTypeId: cContext.getSetting("mapType")[0].value,
               xxmapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU}

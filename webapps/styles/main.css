@@ -239,3 +239,9 @@ margin-top: 10px;
 .gridpanel {
   padding: 10px;
 }
+
+.mapview {
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+}

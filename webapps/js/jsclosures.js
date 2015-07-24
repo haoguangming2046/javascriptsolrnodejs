@@ -15,14 +15,14 @@ CURRENTCONTEXT.getRestUrl = function(contentType){
 }
 
 CURRENTCONTEXT.loadScreenDimensions = function() {
-    var windowDimension;
-    
     var cContext = getCurrentContext();
     
     var padX = cContext.paddingX;
     var padY = cContext.paddingY;
     
-    windowDimension = dojo.window.getBox();
+    var windowDimension = dojo.window.getBox();
+   // var screen = window.screen;
+    //var windowDimension = {w: screen.width,h: screen.height};
    
     cContext.screenWidth = windowDimension.w - padX;
     cContext.screenHeight = windowDimension.h - padY;
@@ -795,6 +795,11 @@ CURRENTCONTEXT.findWidgetById = function(widgetId){
 	return( dojo.byId(widgetId) );
 }
 
+CURRENTCONTEXT.applyStyleToWidget = function(widget,newStyle){
+	dojo.style(widget, newStyle);
+}
+
+
 CURRENTCONTEXT.getElementWidth = function(elem) {
     var style = window.getComputedStyle(elem);
     return elem.offsetWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - parseFloat(style.borderLeft) - parseFloat(style.borderRight) - parseFloat(style.marginLeft) - parseFloat(style.marginRight);
@@ -811,6 +816,73 @@ CURRENTCONTEXT.getElementDimensions = function(elem){
     
 	result.width = cContext.getElementWidth(elem);
 	result.height = cContext.getElementHeight(elem);
+
+	return( result );
+}
+
+CURRENTCONTEXT.buildWidget = function(viewLifecycle,container,args){
+	var itemName = args.id;
+	var type = args.type;
+	var result = false;
+
+	if( type === "input" ) {
+		var itemLabel = dojo.create("label");
+	     itemLabel.id = itemName + "label"
+	     itemLabel.className = args.labelClassName ? args.labelClassName : "label";
+	     itemLabel.for = itemName;
+	     itemLabel.innerHTML = args.itemLabel;
+	     
+	     container.appendChild(itemLabel);
+	     
+	     viewLifecycle.addChild({type: "DOM",id: itemLabel.id});
+
+	     var newInput = document.createElement("input");
+	     newInput.id = itemName;
+	     newInput.className =  args.className ? args.className : "input";
+	     newInput.type = args.itemType;
+	     
+	     container.appendChild(newInput);
+	     result = newInput;
+	}
+	else if( type === "button" ) {
+		var newButton = dojo.create(args.itemType ? args.itemType : "div");
+	     newButton.id = itemName;
+	     if( args.className ){
+	     	newButton.className = args.className;
+	     }
+	     
+	     if( args.itemLabel ){
+	     	newButton.innerHTML = args.itemLabel;
+	     }
+
+	     container.appendChild(newButton);
+	     
+	     viewLifecycle.addChild({type: "DOM",id: newButton.id});
+	     
+	     newButton.onclick = args.onClick;
+	     result = newButton;
+	}
+	else if( type === "container" ) {
+		var newContainer = dojo.create(args.itemType ? args.itemType : "div");
+	     newContainer.id = itemName;
+	     if( args.className ){
+	     	newContainer.className = args.className;
+	     }
+
+		 if( args.style ){
+		 	newContainer.style = args.style;
+		 }
+
+		 if( args.innerHTML ){
+		 	newContainer.innerHTML = args.innerHTML;
+		 }
+	
+	     container.appendChild(newContainer);
+	     
+	     viewLifecycle.addChild({type: "DOM",id: newContainer.id});
+
+	     result = newContainer;
+	}
 
 	return( result );
 }
